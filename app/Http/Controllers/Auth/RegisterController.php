@@ -51,16 +51,8 @@ class RegisterController extends Controller
         $this->validate($request, [
             'username' => 'required|max:255|unique:users',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:6',
         ]);
-
-        $user = $this->create($request->all());
-
-        if($username =  response()->username){
-            return response()->json([
-                'message' => 'Registration successful'
-            ]);
-        }
     }
 
     /**
@@ -71,10 +63,19 @@ class RegisterController extends Controller
      */
     protected function create(Request $request)
     {
-        return User::create([
+        $this->validator($request);
+
+        $user = User::create([
             'username' => $request['username'],
             'email' => $request['email'],
-            'password' => bcrypt($request['password']),
+            'password' => bcrypt($request['password'])
         ]);
+
+
+        if($request['username'] = response('username')){
+            return response()->json([
+                'message' => 'Registration successful'
+            ]);
+        }
     }
 }
