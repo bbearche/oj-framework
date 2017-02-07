@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -46,13 +46,21 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function validator(Request $request)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
+        $this->validate($request, [
+            'username' => 'required|max:255|unique:users',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
+
+        $user = $this->create($request->all());
+
+        if($username =  response()->username){
+            return response()->json([
+                'message' => 'Registration successful'
+            ]);
+        }
     }
 
     /**
@@ -64,7 +72,7 @@ class RegisterController extends Controller
     protected function create(Request $request)
     {
         return User::create([
-            'name' => $request['name'],
+            'username' => $request['username'],
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
         ]);
