@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -28,12 +29,26 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
 
     /**
-     * Create a new controller instance.
+     * Authenticate a user.
      *
-     * @return void
+     * @param \Illuminate\Http\Request $request
+     * @param mixed  $user
+     * @return mixed
      */
-    public function __construct()
+    public function __invoke(Request $request)
     {
-        $this->middleware('guest', ['except' => 'logout']);
+        $this->validate($request, [
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+        //dd(api_token($request));
+        if ($token = api_token($request)) {
+
+            return response()->json(['data' => [
+                'token' => $token
+            ]]);
+        }
+
+        return response()->json('Login and password do not match.', 401);
     }
 }
