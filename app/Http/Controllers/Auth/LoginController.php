@@ -41,7 +41,7 @@ class LoginController extends Controller
             'email' => 'required',
             'password' => 'required'
         ]);
-        //dd(api_token($request));
+        
         if ($token = api_token($request)) {
 
             return response()->json(['data' => [

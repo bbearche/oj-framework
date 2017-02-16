@@ -73,9 +73,14 @@ class RegisterController extends Controller
 
 
         if($request['username'] = response('username')){
-            return response()->json([
-                'message' => 'Registration successful'
-            ]);
+            if ($token = api_token($request)) {
+
+                return response()->json(['data' => [
+                    'message' => 'Registration successful',
+                    'token' => $token
+
+                ]]);
+            }
         }
     }
 }
