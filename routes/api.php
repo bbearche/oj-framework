@@ -24,4 +24,6 @@ Route::group(['namespace' => 'Auth'], function () {
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('user', 'UserController@show');
+    Route::put('user/{user_id}', 'UserController@update');
+
 });

@@ -2,19 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Services\UserService;
+use App\Http\Requests\ApiRequest;
+use App\Http\Requests\Api\UserRequest;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+    /**
+     * Create a new instance of the controller.
+     *
+     * @param UserService $user
+     */
+    public function __construct(UserService $user)
+    {
+        $this->user = $user;
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id = null)
+    public function show(UserRequest $request, $id = null)
     {
+
         if (!$id) {
             $response = ['data' => $request->user()];
 
@@ -37,12 +50,53 @@ class UserController extends Controller
      *
      * @return response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        if ($user = $this->user->update($request, $id)) {
+        if ($user = $this->user->get($id)->update($request->all(), [$id])) {
             $response = [
                 'message' => 'User update successful',
                 'data' => $user,
+            ];
+
+            return response()->json($response);
+        }
+
+        return response()->json('Forbidden', 403);
+    }
+
+    /**
+     * Get user settings.
+     *
+     * @param UserRequest $request
+     *
+     * @return response
+     */
+    public function getSettings(UserRequest $request, $id)
+    {
+        if ($user_settings = $this->user->getSettings($request, $id)) {
+            $response = [
+                'data' => $user_settings,
+            ];
+
+            return response()->json($response);
+        }
+
+        return response()->json('Forbidden', 403);
+    }
+
+    /**
+     * Update user settings.
+     *
+     * @param UserRequest $request
+     *
+     * @return response
+     */
+    public function updateSettings(UserRequest $request, $id)
+    {
+        if ($user_settings = $this->user->updateSettings($request, $id)) {
+            $response = [
+                'message' => 'User settings updated successfully',
+                'data' => $user_settings,
             ];
 
             return response()->json($response);
@@ -58,7 +112,7 @@ class UserController extends Controller
      *
      * @return response
      */
-    public function search(Request $request)
+    public function search(ApiRequest $request)
     {
         $users = $this->user->search($request);
 
