@@ -65,47 +65,6 @@ class UserController extends Controller
     }
 
     /**
-     * Get user settings.
-     *
-     * @param UserRequest $request
-     *
-     * @return response
-     */
-    public function getSettings(UserRequest $request, $id)
-    {
-        if ($user_settings = $this->user->getSettings($request, $id)) {
-            $response = [
-                'data' => $user_settings,
-            ];
-
-            return response()->json($response);
-        }
-
-        return response()->json('Forbidden', 403);
-    }
-
-    /**
-     * Update user settings.
-     *
-     * @param UserRequest $request
-     *
-     * @return response
-     */
-    public function updateSettings(UserRequest $request, $id)
-    {
-        if ($user_settings = $this->user->updateSettings($request, $id)) {
-            $response = [
-                'message' => 'User settings updated successfully',
-                'data' => $user_settings,
-            ];
-
-            return response()->json($response);
-        }
-
-        return response()->json('Forbidden', 403);
-    }
-
-    /**
      * Search for a user.
      *
      * @param ApiRequest $request
