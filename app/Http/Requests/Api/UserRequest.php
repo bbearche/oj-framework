@@ -59,7 +59,6 @@ class UserRequest extends ApiRequest
                     'bail', 'sometimes', 'required', 'alpha_dash', 'min:3',' max:255',
                     Rule::unique('users'),
                 ],
-                'name' => 'required',
                 'password' => 'required_without:facebook_user_id|min:6',
                 'profile_image' => 'image|max=2000|filled',
             ];
@@ -86,7 +85,7 @@ class UserRequest extends ApiRequest
                     'bail', 'sometimes', 'required', 'alpha_dash', 'min:3',' max:255',
                     Rule::unique('users')->ignore($this->user()->id)
                 ],
-                'name' => 'sometimes|required|max:255',
+                'name' => 'max:255',
                 'password' => 'sometimes|required|min:6',
             ];
         } else if($this->isMethod('POST') && $this->is('user/*/profile-image')) {

@@ -71,7 +71,6 @@ class RegisterController extends Controller
             'password' => bcrypt($request['password'])
         ]);
 
-
         if($request['username'] = response('username')){
             if ($token = api_token($request)) {
 
