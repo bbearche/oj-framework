@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 
 Route::group(['namespace' => 'Auth'], function () {
     Route::post('register', 'RegisterController@create');
-
+    
     Route::post('login', 'LoginController');
 });
 
