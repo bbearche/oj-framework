@@ -52,7 +52,7 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-        if ($user = $this->user->get($id)->update($request->all(), [$id])) {
+        if ($user = $request->user()->update($request->all(), [$id])) {
             $response = [
                 'message' => 'User update successful',
                 'data' => $user,
