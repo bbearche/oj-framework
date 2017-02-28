@@ -52,30 +52,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * Accessor for the first name.
-     *
-     * @return string
-     */
-    public function getFirstNameAttribute()
-    {
-        preg_match('#^(\w+\.)?\s*([\'\’\w]+)\s+([\'\’\w]+)\s*(\w+\.?)?$#', $this->name, $name);
-
-        return $name[2];
-    }
-
-    /**
-     * Accessor for the last name.
-     *
-     * @return string
-     */
-    public function getLastNameAttribute()
-    {
-        preg_match('#^(\w+\.)?\s*([\'\’\w]+)\s+([\'\’\w]+)\s*(\w+\.?)?$#', $this->name, $name);
-
-        return $name[3];
-    }
-
-    /**
      * Return the meta attribute as a key value array.
      *
      * @return array
