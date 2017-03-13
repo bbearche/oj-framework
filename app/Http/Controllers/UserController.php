@@ -56,7 +56,7 @@ class UserController extends Controller
         if ($user = $request->user()->update($request->all())) {
             $response = [
                 'message' => 'User update successful',
-                'data' => $user,
+                'data' => $request->user(),
             ];
 
             return response()->json($response);
