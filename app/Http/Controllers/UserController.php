@@ -50,9 +50,10 @@ class UserController extends Controller
      *
      * @return response
      */
-    public function update(UserRequest $request, $id)
+    public function update(UserRequest $request)
     {
-        if ($user = $request->user()->update($request->all(), [$id])) {
+
+        if ($user = $request->user()->update($request->all())) {
             $response = [
                 'message' => 'User update successful',
                 'data' => $user,
