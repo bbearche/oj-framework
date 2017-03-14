@@ -6,6 +6,7 @@ use App\Services\UserService;
 use App\Http\Requests\ApiRequest;
 use App\Http\Requests\Api\UserRequest;
 use App\Http\Controllers\Controller;
+use Storage;
 
 class UserController extends Controller
 {
@@ -52,7 +53,6 @@ class UserController extends Controller
      */
     public function update(UserRequest $request)
     {
-
         if ($user = $request->user()->update($request->all())) {
             $response = [
                 'message' => 'User update successful',
@@ -77,5 +77,35 @@ class UserController extends Controller
         $users = $this->user->search($request);
 
         return response()->json($users);
+    }
+
+    /**
+     * Update the avatar for the given user.
+     *
+     * @param  Request  $request
+     * @param  int  $id
+     * @return Response
+     */
+    public function postProfileImage(UserRequest $request)
+    {
+        Storage::put(
+            'profile-image/'.$request->user()->id.'.jpg',
+            file_get_contents($request->profile_image)
+        );
+
+        $url = env('APP_URL').Storage::url('profile-image/'.$request->user()->id.'.jpg');
+
+        if ($user = $request->user()->update(['profile_image' => $url])) {
+            $response = [
+                'message' => 'User profile image upload successful',
+                'profile-image' => $url,
+            ];
+
+            return response()->json($response);
+        }
+
+        return response()->json('Forbidden', 403);
+
+
     }
 }

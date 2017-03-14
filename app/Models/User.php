@@ -38,7 +38,8 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'city',
-        'state'
+        'state',
+        'profile_image'
     ];
 
     /**
