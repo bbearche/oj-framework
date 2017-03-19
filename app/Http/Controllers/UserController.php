@@ -90,7 +90,7 @@ class UserController extends Controller
     {
         Storage::put(
             'profile-image/'.$request->user()->id.'.jpg',
-            file_get_contents($request->profile_image)
+            file_get_contents($request->profile_image), 'public'
         );
 
         $url = env('APP_URL').Storage::url('profile-image/'.$request->user()->id.'.jpg');
@@ -105,7 +105,5 @@ class UserController extends Controller
         }
 
         return response()->json('Forbidden', 403);
-
-
     }
 }
