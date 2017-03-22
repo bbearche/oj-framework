@@ -210,13 +210,12 @@ class UserService
     public function search($request)
     {
         $users = $this->user->where(function($query) use ($request) {
-                    $query->where('username', 'like', "%$request->search%")
-                          ->orWhere('name', 'like', "%$request->search%");
-                })->where('id', '<>', $request->user()->id)->paginate();
-
-        $users->each(function ($item) {
-                $item->append(['is_connected']);
-        });
+                    $query->where('username', 'like', "%$request->search%");
+                })->paginate();
+                
+        // $users->each(function ($item) {
+        //         $item->append(['is_connected']);
+        // });
 
         return $users;
     }
