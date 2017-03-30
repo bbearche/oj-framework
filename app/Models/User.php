@@ -23,8 +23,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $appends = [
-        'reviews',
-        'total_score'
+        'total_score',
+        'reviews'
     ];
 
     /**
@@ -70,7 +70,9 @@ class User extends Authenticatable
      */
     public function getTotalScoreAttribute()
     {
-        return 5;
+        $score = $this->reviews()->avg('score');
+
+        return round($score, 1);
     }
 
     /**
