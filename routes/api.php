@@ -28,4 +28,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('user', 'UserController@update');
     Route::post('user/profile-image', 'UserController@postProfileImage');
     Route::post('users/search', 'UserController@search');
+    Route::resource('reviews', 'ReviewsController');
 });
