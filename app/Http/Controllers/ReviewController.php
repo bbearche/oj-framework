@@ -36,17 +36,6 @@ class ReviewController extends Controller
             'type' => 'required|max:20'
         ]);
 
-        $this->createReview($request);
-    }
-
-    /**
-     * Send a brand account invite.
-     *
-     * @param  Request $request
-     * @return Response
-     */
-    public function createReview(Request $request)
-    {
         $review = Review::create([
             'sender_id' => $request->sender_id,
             'recipient_id' => $request->recipient_id,
@@ -56,6 +45,7 @@ class ReviewController extends Controller
         ]);
 
         return response()->json([
+            'message' => 'Review Sent',
             'review' => $review
         ]);
     }

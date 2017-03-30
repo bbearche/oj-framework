@@ -23,7 +23,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $appends = [
-        'meta',
+        'reviews',
+        'total_score'
     ];
 
     /**
@@ -53,16 +54,23 @@ class User extends Authenticatable
     ];
 
     /**
-     * Return the meta attribute as a key value array.
+     * Reviews Attribute.
      *
-     * @return array
+     * @return Eloquent
      */
-    public function getMetaAttribute()
+    public function getReviewsAttribute()
     {
-        $meta = $this->meta()->pluck('meta_value', 'meta_key');
-        $meta = $this->metaImages($meta);
+        return $this->reviews()->get();
+    }
 
-        return count($meta) ? $meta : null;
+    /**
+     * Reviews Attribute.
+     *
+     * @return Eloquent
+     */
+    public function getTotalScoreAttribute()
+    {
+        return 5;
     }
 
     /**
@@ -105,5 +113,19 @@ class User extends Authenticatable
         }
 
         return $this;
+    }
+
+    /**
+     * Relationship with a review.
+     *
+     * @return Eloquent
+     */
+    public function reviews()
+    {
+        return $this->hasMany(
+            'App\Models\Review',
+            'recipient_id',
+            'id'
+        );
     }
 }
