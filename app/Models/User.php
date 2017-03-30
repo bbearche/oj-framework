@@ -60,7 +60,7 @@ class User extends Authenticatable
      */
     public function getReviewsAttribute()
     {
-        return $this->reviews()->get();
+        return $this->reviews()->paginate(15);
     }
 
     /**
