@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,14 +16,16 @@ class LogoutController extends Controller
      */
     public function __invoke(Request $request)
     {
-
         if ($request->user()) {
 
             $request->user()->token()->revoke();
-
-            return response()->json(['data' => [
+            
+            return response()->json([
                 'message' => 'Logout successful'
-            ]]);
+            ]);
         }
+        return response()->json([
+            'message' => 'No User to logout'
+        ]);
     }
 }

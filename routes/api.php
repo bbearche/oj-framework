@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 
 Route::group(['namespace' => 'Auth'], function () {
     Route::post('register', 'RegisterController@create');
-    Route::post('logout', 'LogoutController');
+
     Route::post('login', 'LoginController');
 });
 
@@ -29,4 +29,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('user/profile-image', 'UserController@postProfileImage');
     Route::post('users/search', 'UserController@search');
     Route::resource('reviews', 'ReviewController');
+    Route::post('logout', 'LogoutController');
+
 });
